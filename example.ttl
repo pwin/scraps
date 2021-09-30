@@ -103,6 +103,7 @@ cdi:displayLabel "Covered"@en , "Coverte"@fr ;
 cdi:uses :D ;
 cdi:definition "whether the facility is covered" ;
 cdi:takesSubstantiveValueFrom :codelist0 ;
+cdi:takesSentinelValueFrom :sv1 ;
 .
 
 
@@ -177,7 +178,7 @@ cdi:has "Cinema", "Playing Field", "School" ; .
 
 :codelist0 a cdi:Codelist ;
 cdi:name "codelist 0" ;
-cdi:has :c1, :c2, :c3 ; .
+cdi:has :c1, :c2; .
 
 :codelist1 a cdi:Codelist ;
 cdi:name "codelist 1 for quality" ;
@@ -209,7 +210,7 @@ cdi:value "NA" ;
 
 :sv1 a cdi:Codelist ;
 cdi:name "sentinel value for NA";
-cdi:has "NA";
+cdi:has :c3 ;
 .
 
 
