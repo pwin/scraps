@@ -259,49 +259,59 @@ cdi:isDefinedBy :S ;
 
 
 
-:PRS1 a cdi:PhysicalRecordSegment ;
+:PRS1 a cdi:PhysicalRecordSegmentStructure ;
 cdi:has :dp1, :dp2, :dp3, :dp4, :dp5, :dp6, :dp7, :dp8, :dp9, :dp10 ;
 .
 
 :dp1 a cdi:DataPoint ;
 cdi:identifier "data point 1" ;
 cdi:sequence "1" ;
+cdi:correspondsTo :K ;
 .
 :dp2 a cdi:DataPoint ;
 cdi:identifier "data point 2" ;
 cdi:sequence "2" ;
+cdi:correspondsTo :L ;
 .
 :dp3 a cdi:DataPoint ;
 cdi:identifier "data point 3" ;
 cdi:sequence "3" ;
+cdi:correspondsTo :M ;
 .
 :dp4 a cdi:DataPoint ;
 cdi:identifier "data point 4" ;
 cdi:sequence "4" ;
+cdi:correspondsTo :N ;
 .
 :dp5 a cdi:DataPoint ;
 cdi:identifier "data point 5" ;
 cdi:sequence "5" ;
+cdi:correspondsTo :O ;
 .
 :dp6 a cdi:DataPoint ;
 cdi:identifier "data point 6" ;
 cdi:sequence "6" ;
+cdi:correspondsTo :P ;
 .
 :dp7 a cdi:DataPoint ;
 cdi:identifier "data point 7" ;
 cdi:sequence "7" ;
+cdi:correspondsTo :Q ;
 .
 :dp8 a cdi:DataPoint ;
 cdi:identifier "data point 8" ;
 cdi:sequence "8" ;
+cdi:correspondsTo :R ;
 .
 :dp9 a cdi:DataPoint ;
 cdi:identifier "data point 9" ;
 cdi:sequence "9" ;
+cdi:correspondsTo :S ;
 .
 :dp10 a cdi:DataPoint ;
 cdi:identifier "data point 10" ;
 cdi:sequence "10" ;
+cdi:correspondsTo :T ;
 .
 
 
