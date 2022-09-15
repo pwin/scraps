@@ -1,0 +1,668 @@
+@prefix : <http://www.w3.org/ns/dcat#> .
+@prefix dct: <http://purl.org/dc/terms/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix sdo: <http://schema.org/> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix prov: <http://www.w3.org/ns/prov#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix dctype: <http://purl.org/dc/dcmitype/> .
+@base <http://www.w3.org/ns/dcat> .
+
+<http://www.w3.org/ns/dcat> rdf:type owl:Ontology ;
+                             owl:imports dct: ,
+                                         <http://www.w3.org/2004/02/skos/core> ,
+                                         <http://www.w3.org/ns/prov-o#> ;
+                             dct:license <https://creativecommons.org/licenses/by/4.0/> ;
+                             dct:modified "2019" ;
+                             rdfs:comment "DCAT is an RDF vocabulary designed to facilitate interoperability between data catalogs published on the Web. By using DCAT to describe datasets in data catalogs, publishers increase discoverability and enable applications easily to consume metadata from multiple catalogs. It further enables decentralized publishing of catalogs and facilitates federated dataset search across sites. Aggregated DCAT metadata can serve as a manifest file to facilitate digital preservation. DCAT is defined at http://www.w3.org/TR/vocab-dcat/. Any variance between that normative document and this schema is an error in this schema."@en ;
+                             rdfs:label "The data catalog vocabulary"@en ;
+                             owl:versionInfo "This is an updated copy of v2.0 of the DCAT vocabulary, taken from https://www.w3.org/ns/dcat.ttl"@en .
+
+#################################################################
+#    Annotation properties
+#################################################################
+
+###  http://purl.org/dc/terms/license
+dct:license rdf:type owl:AnnotationProperty .
+
+
+###  http://purl.org/dc/terms/modified
+dct:modified rdf:type owl:AnnotationProperty .
+
+
+###  http://schema.org/affiliation
+sdo:affiliation rdf:type owl:AnnotationProperty .
+
+
+###  http://schema.org/rangeIncludes
+sdo:rangeIncludes rdf:type owl:AnnotationProperty .
+
+
+###  http://xmlns.com/foaf/0.1/maker
+foaf:maker rdf:type owl:AnnotationProperty .
+
+
+###  http://xmlns.com/foaf/0.1/name
+foaf:name rdf:type owl:AnnotationProperty .
+
+
+###  http://xmlns.com/foaf/0.1/workInfoHomepage
+foaf:workInfoHomepage rdf:type owl:AnnotationProperty .
+
+
+#################################################################
+#    Datatypes
+#################################################################
+
+###  http://www.w3.org/2001/XMLSchema#duration
+xsd:duration rdf:type rdfs:Datatype .
+
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://purl.org/dc/terms/format
+dct:format rdf:type owl:ObjectProperty .
+
+
+###  http://purl.org/dc/terms/hasPart
+dct:hasPart rdf:type owl:ObjectProperty .
+
+
+###  http://purl.org/dc/terms/relation
+dct:relation rdf:type owl:ObjectProperty .
+
+
+###  http://www.w3.org/2000/01/rdf-schema#member
+rdfs:member rdf:type owl:ObjectProperty .
+
+
+###  http://www.w3.org/ns/dcat#accessService
+dcat:accessService rdf:type owl:ObjectProperty ;
+                   rdfs:range dcat:DataService ;
+                   rdfs:comment "A site or end-point that gives access to the distribution of the dataset."@en ;
+                   rdfs:label "data access service"@en ;
+                   skos:changeNote "New property added in DCAT 2.0."@en ;
+                   skos:definition "A site or end-point that gives access to the distribution of the dataset."@en .
+
+
+###  http://www.w3.org/ns/dcat#accessURL
+dcat:accessURL rdf:type owl:ObjectProperty ;
+               rdfs:domain dcat:Distribution ;
+               rdfs:range rdfs:Resource ;
+               owl:propertyChainAxiom ( dcat:accessService
+                                        dcat:endpointURL
+                                      ) ;
+               rdfs:comment "A URL of a resource that gives access to a distribution of the dataset. E.g. landing page, feed, SPARQL endpoint. Use for all cases except a simple download link, in which case downloadURL is preferred."@en ;
+               rdfs:isDefinedBy <http://www.w3.org/TR/vocab-dcat/> ;
+               rdfs:label "access address"@en ;
+               skos:definition "A URL of a resource that gives access to a distribution of the dataset. E.g. landing page, feed, SPARQL endpoint. Use for all cases except a simple download link, in which case downloadURL is preferred."@en ;
+               skos:editorialNote "Status: English Definition text modified by DCAT revision team, updated Italian and Czech translation provided, translations for other languages pending."@en ,
+                                  "rdfs:label, rdfs:comment and skos:scopeNote have been modified. Non-english versions except for Italian must be updated."@en ;
+               skos:scopeNote "If the distribution(s) are accessible only through a landing page (i.e. direct download URLs are not known), then the landing page link should be duplicated as accessURL on a distribution."@en .
+
+
+###  http://www.w3.org/ns/dcat#catalog
+dcat:catalog rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf dct:hasPart ,
+                                rdfs:member ;
+             rdfs:domain dcat:Catalog ;
+             rdfs:range dcat:Catalog ;
+             rdfs:comment "A catalog whose contents are of interest in the context of this catalog."@en ;
+             rdfs:label "catalog"@en ;
+             skos:changeNote "New property added in DCAT 2.0."@en ;
+             skos:definition "A catalog whose contents are of interest in the context of this catalog."@en .
+
+
+###  http://www.w3.org/ns/dcat#compressFormat
+dcat:compressFormat rdf:type owl:ObjectProperty ;
+                    rdfs:subPropertyOf dct:format ;
+                    rdfs:domain dcat:Distribution ;
+                    rdfs:range dct:MediaType ;
+                    rdfs:comment "The compression format of the distribution in which the data is contained in a compressed form, e.g. to reduce the size of the downloadable file."@en ;
+                    rdfs:isDefinedBy <https://www.w3.org/TR/vocab-dcat-2/> ;
+                    rdfs:label "compression format"@en ;
+                    skos:changeNote "New property added in DCAT 2.0."@en ;
+                    skos:definition "The compression format of the distribution in which the data is contained in a compressed form, e.g. to reduce the size of the downloadable file."@en ;
+                    skos:scopeNote "This property is to be used when the files in the distribution are compressed, e.g. in a ZIP file. The format SHOULD be expressed using a media type as defined by IANA media types registry https://www.iana.org/assignments/media-types/, if available."@en .
+
+
+###  http://www.w3.org/ns/dcat#contactPoint
+dcat:contactPoint rdf:type owl:ObjectProperty ;
+                  rdfs:range vcard:Kind ;
+                  rdfs:comment "Relevant contact information for the catalogued resource. Use of vCard is recommended."@en ;
+                  rdfs:isDefinedBy <http://www.w3.org/TR/vocab-dcat/> ;
+                  rdfs:label "contact point"@en ;
+                  skos:definition "Relevant contact information for the catalogued resource. Use of vCard is recommended."@en .
+
+
+###  http://www.w3.org/ns/dcat#dataset
+dcat:dataset rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf dct:hasPart ,
+                                rdfs:member ;
+             rdfs:domain dcat:Catalog ;
+             rdfs:range dcat:Dataset ;
+             rdfs:comment "A collection of data that is listed in the catalog."@en ;
+             rdfs:isDefinedBy <http://www.w3.org/TR/vocab-dcat/> ;
+             rdfs:label "dataset"@en ;
+             skos:definition "A collection of data that is listed in the catalog."@en .
+
+
+###  http://www.w3.org/ns/dcat#distribution
+dcat:distribution rdf:type owl:ObjectProperty ;
+                  rdfs:subPropertyOf dct:relation ;
+                  rdfs:domain dcat:Dataset ;
+                  rdfs:range dcat:Distribution ;
+                  rdfs:comment "An available distribution of the dataset."@en ;
+                  rdfs:isDefinedBy <http://www.w3.org/TR/vocab-dcat/> ;
+                  rdfs:label "distribution"@en ;
+                  skos:definition "An available distribution of the dataset."@en .
+
+
+###  http://www.w3.org/ns/dcat#downloadURL
+dcat:downloadURL rdf:type owl:ObjectProperty ;
+                 rdfs:domain dcat:Distribution ;
+                 rdfs:range rdfs:Resource ;
+                 rdfs:comment "The URL of the downloadable file in a given format. E.g. CSV file or RDF file. The format is indicated by the distribution's dct:format and/or dcat:mediaType."@en ;
+                 rdfs:isDefinedBy <http://www.w3.org/TR/vocab-dcat/> ;
+                 rdfs:label "download URL"@en ;
+                 skos:definition "The URL of the downloadable file in a given format. E.g. CSV file or RDF file. The format is indicated by the distribution's dct:format and/or dcat:mediaType."@en ;
+                 skos:editorialNote "Status: English  Definition text modified by DCAT revision team, Italian, Spanish and Czech translation updated, other translations pending."@en ,
+                                    "rdfs:label, rdfs:comment and/or skos:scopeNote have been modified. Non-english versions must be updated."@en ;
+                 skos:scopeNote "dcat:downloadURL SHOULD be used for the address at which this distribution is available directly, typically through a HTTP Get request."@en .
+
+
+###  http://www.w3.org/ns/dcat#endpointDescription
+dcat:endpointDescription rdf:type owl:ObjectProperty ;
+                         rdfs:domain dcat:DataService ;
+                         rdfs:comment "A description of the service end-point, including its operations, parameters etc."@en ;
+                         rdfs:label "description of service end-point"@en ;
+                         skos:changeNote "New property in DCAT 2.0."@en ;
+                         skos:definition "A description of the service end-point, including its operations, parameters etc."@en ;
+                         skos:scopeNote "An endpoint description may be expressed in a machine-readable form, such as an OpenAPI (Swagger) description, an OGC GetCapabilities response, a SPARQL Service Description, an OpenSearch or WSDL document, a Hydra API description, else in text or some other informal mode if a formal representation is not possible."@en .
+
+
+###  http://www.w3.org/ns/dcat#endpointURL
+dcat:endpointURL rdf:type owl:ObjectProperty ;
+                 rdfs:domain dcat:DataService ;
+                 rdfs:range rdfs:Resource ;
+                 rdfs:comment "The root location or primary endpoint of the service (a web-resolvable IRI)."@en ;
+                 rdfs:label "service end-point"@en ;
+                 skos:changeNote "New property in DCAT 2.0."@en ;
+                 skos:definition "The root location or primary endpoint of the service (a web-resolvable IRI)."@en .
+
+
+###  http://www.w3.org/ns/dcat#hadRole
+dcat:hadRole rdf:type owl:ObjectProperty ;
+             rdfs:domain [ rdf:type owl:Class ;
+                           owl:unionOf ( dcat:Relationship
+                                         prov:Attribution
+                                       )
+                         ] ;
+             rdfs:range dcat:Role ;
+             rdfs:comment "The function of an entity or agent with respect to another entity or resource."@en ;
+             rdfs:label "hadRole"@en ;
+             skos:changeNote "New property added in DCAT 2.0."@en ;
+             skos:definition "The function of an entity or agent with respect to another entity or resource."@en ;
+             skos:editorialNote "Introduced into DCAT to complement prov:hadRole (whose use is limited to roles in the context of an activity, with the domain of prov:Association."@en ;
+             skos:scopeNote "May be used in a qualified-attribution to specify the role of an Agent with respect to an Entity. It is recommended that the value be taken from a controlled vocabulary of agent roles, such as http://registry.it.csiro.au/def/isotc211/CI_RoleCode."@en ,
+                            "May be used in a qualified-relation to specify the role of an Entity with respect to another Entity.  It is recommended that the value be taken from a controlled vocabulary of entity roles such as: ISO 19115 DS_AssociationTypeCode http://registry.it.csiro.au/def/isotc211/DS_AssociationTypeCode; IANA Registry of Link Relations https://www.iana.org/assignments/link-relation; DataCite metadata schema; MARC relators https://id.loc.gov/vocabulary/relators."@en .
+
+
+###  http://www.w3.org/ns/dcat#landingPage
+dcat:landingPage rdf:type owl:ObjectProperty ;
+                 rdfs:subPropertyOf foaf:page ;
+                 rdfs:range foaf:Document ;
+                 rdfs:comment "A Web page that can be navigated to in a Web browser to gain access to the catalog, a dataset, its distributions and/or additional information."@en ;
+                 rdfs:isDefinedBy <http://www.w3.org/TR/vocab-dcat/> ;
+                 rdfs:label "landing page"@en ;
+                 skos:definition "A Web page that can be navigated to in a Web browser to gain access to the catalog, a dataset, its distributions and/or additional information."@en ;
+                 skos:scopeNote "If the distribution(s) are accessible only through a landing page (i.e. direct download URLs are not known), then the landing page link should be duplicated as accessURL on a distribution."@en .
+
+
+###  http://www.w3.org/ns/dcat#mediaType
+dcat:mediaType rdf:type owl:ObjectProperty ;
+               rdfs:subPropertyOf dct:format ;
+               rdfs:domain dcat:Distribution ;
+               rdfs:range dct:MediaType ;
+               rdfs:comment "The media type of the distribution as defined by IANA"@en ;
+               rdfs:isDefinedBy <http://www.w3.org/TR/vocab-dcat/> ;
+               rdfs:label "media type"@en ;
+               skos:changeNote "The range of dcat:mediaType has been tightened as part of the revision of DCAT."@en ;
+               skos:definition "The media type of the distribution as defined by IANA."@en ;
+               skos:editorialNote "Status: English Definition text modified by DCAT revision team, Italian and Czech translation provided, other translations pending. Note some inconsistency on def vs. usage."@en ;
+               skos:scopeNote "This property SHOULD be used when the media type of the distribution is defined in the IANA media types registry https://www.iana.org/assignments/media-types/, otherwise dct:format MAY be used with different values."@en .
+
+
+###  http://www.w3.org/ns/dcat#packageFormat
+dcat:packageFormat rdf:type owl:ObjectProperty ;
+                   rdfs:subPropertyOf dct:format ;
+                   rdfs:domain dcat:Distribution ;
+                   rdfs:range dct:MediaType ;
+                   rdfs:comment "The package format of the distribution in which one or more data files are grouped together, e.g. to enable a set of related files to be downloaded together."@en ;
+                   rdfs:isDefinedBy <https://www.w3.org/TR/vocab-dcat-2/> ;
+                   rdfs:label "packaging format"@en ;
+                   skos:changeNote "New property added in DCAT 2.0."@en ;
+                   skos:definition "The package format of the distribution in which one or more data files are grouped together, e.g. to enable a set of related files to be downloaded together."@en ;
+                   skos:scopeNote "This property to be used when the files in the distribution are packaged, e.g. in a TAR file, a Frictionless Data Package or a Bagit file. The format SHOULD be expressed using a media type as defined by IANA media types registry https://www.iana.org/assignments/media-types/, if available."@en .
+
+
+###  http://www.w3.org/ns/dcat#qualifiedRelation
+dcat:qualifiedRelation rdf:type owl:ObjectProperty ;
+                       rdfs:domain dcat:Resource ;
+                       rdfs:range dcat:Relationship ;
+                       rdfs:comment "Link to a description of a relationship with another resource."@en ;
+                       rdfs:label "qualified relation"@en ;
+                       skos:changeNote "New property added in DCAT 2.0."@en ;
+                       skos:definition "Link to a description of a relationship with another resource."@en ;
+                       skos:editorialNote "Introduced into DCAT to complement the other PROV qualified relations. "@en ;
+                       skos:scopeNote "Used to link to another resource where the nature of the relationship is known but does not match one of the standard Dublin Core properties (dct:hasPart, dct:isPartOf, dct:conformsTo, dct:isFormatOf, dct:hasFormat, dct:isVersionOf, dct:hasVersion, dct:replaces, dct:isReplacedBy, dct:references, dct:isReferencedBy, dct:requires, dct:isRequiredBy) or PROV-O properties (prov:wasDerivedFrom, prov:wasInfluencedBy, prov:wasQuotedFrom, prov:wasRevisionOf, prov:hadPrimarySource, prov:alternateOf, prov:specializationOf)."@en .
+
+
+###  http://www.w3.org/ns/dcat#record
+dcat:record rdf:type owl:ObjectProperty ;
+            rdfs:domain dcat:Catalog ;
+            rdfs:range dcat:CatalogRecord ;
+            rdfs:comment "A record describing the registration of a single dataset or data service that is part of the catalog."@en ;
+            rdfs:isDefinedBy <http://www.w3.org/TR/vocab-dcat/> ;
+            rdfs:label "record"@en ;
+            skos:definition "A record describing the registration of a single dataset or data service that is part of the catalog."@en ;
+            skos:editorialNote "Status: English, Italian, Spanish and Czech Definitions modified by DCAT revision team, other translations pending."@en .
+
+
+###  http://www.w3.org/ns/dcat#servesDataset
+dcat:servesDataset rdf:type owl:ObjectProperty ;
+                   rdfs:domain dcat:DataService ;
+                   rdfs:range dcat:Dataset ;
+                   rdfs:comment "A collection of data that this DataService can distribute."@en ;
+                   rdfs:label "serves dataset"@en ;
+                   skos:changeNote "New property in DCAT 2.0."@en ;
+                   skos:definition "A collection of data that this DataService can distribute."@en .
+
+
+###  http://www.w3.org/ns/dcat#service
+dcat:service rdf:type owl:ObjectProperty ;
+             rdfs:subPropertyOf dct:hasPart ,
+                                rdfs:member ;
+             rdfs:domain dcat:Catalog ;
+             rdfs:range dcat:DataService ;
+             rdfs:comment "A site or endpoint that is listed in the catalog."@en ;
+             rdfs:label "service"@en ;
+             skos:changeNote "New property added in DCAT 2.0."@en ;
+             skos:definition "A site or endpoint that is listed in the catalog."@en .
+
+
+###  http://www.w3.org/ns/dcat#theme
+dcat:theme rdf:type owl:ObjectProperty ;
+           rdfs:range skos:Concept .
+
+
+###  http://www.w3.org/ns/dcat#themeTaxonomy
+dcat:themeTaxonomy rdf:type owl:ObjectProperty ;
+                   rdfs:domain dcat:Catalog ;
+                   rdfs:range rdfs:Resource ;
+                   sdo:rangeIncludes owl:Ontology ,
+                                     skos:Collection ,
+                                     skos:ConceptScheme ;
+                   rdfs:comment "The knowledge organization system (KOS) used to classify catalog's datasets."@en ;
+                   rdfs:isDefinedBy <http://www.w3.org/TR/vocab-dcat/> ;
+                   rdfs:label "theme taxonomy"@en ;
+                   skos:definition "The knowledge organization system (KOS) used to classify catalog's datasets."@en ;
+                   skos:scopeNote "It is recommended that the taxonomy is organized in a skos:ConceptScheme, skos:Collection, owl:Ontology or similar, which allows each member to be denoted by an IRI and published as linked-data."@en .
+
+
+###  http://xmlns.com/foaf/0.1/homepage
+foaf:homepage rdf:type owl:ObjectProperty ;
+              rdfs:comment "This axiom needed so that Protege loads DCAT2 without errors." .
+
+
+###  http://xmlns.com/foaf/0.1/page
+foaf:page rdf:type owl:ObjectProperty .
+
+
+###  http://xmlns.com/foaf/0.1/primaryTopic
+foaf:primaryTopic rdf:type owl:ObjectProperty ;
+                  rdfs:comment "This axiom needed so that Protege loads DCAT2 without errors." .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://purl.org/dc/terms/subject
+dct:subject rdf:type owl:DatatypeProperty .
+
+
+###  http://www.w3.org/ns/dcat#bbox
+dcat:bbox rdf:type owl:DatatypeProperty ;
+          rdfs:domain dct:Location ;
+          rdfs:range rdfs:Literal ;
+          rdfs:label "bounding box"@en ;
+          skos:changeNote "New property added in DCAT 2.0."@en ;
+          skos:definition "The geographic bounding box of a resource."@en ;
+          skos:scopeNote "The range of this property is intentionally generic, with the purpose of allowing different geometry encodings. E.g., the geometry could be encoded with as WKT (geosparql:wktLiteral [GeoSPARQL]) or [GML] (geosparql:asGML [GeoSPARQL])."@en .
+
+
+###  http://www.w3.org/ns/dcat#byteSize
+dcat:byteSize rdf:type owl:DatatypeProperty ;
+              rdfs:domain dcat:Distribution ;
+              rdfs:range rdfs:Literal ;
+              rdfs:comment "The size of a distribution in bytes."@en ;
+              rdfs:isDefinedBy <http://www.w3.org/TR/vocab-dcat/> ;
+              rdfs:label "byte size"@en ;
+              skos:definition "The size of a distribution in bytes."@en ;
+              skos:scopeNote "The size in bytes can be approximated when the precise size is not known. The literal value of dcat:byteSize should by typed as xsd:decimal."@en .
+
+
+###  http://www.w3.org/ns/dcat#centroid
+dcat:centroid rdf:type owl:DatatypeProperty ;
+              rdfs:domain dct:Location ;
+              rdfs:range rdfs:Literal ;
+              rdfs:label "centroid"@en ;
+              skos:changeNote "New property added in DCAT 2.0."@en ;
+              skos:definition "The geographic center (centroid) of a resource."@en ;
+              skos:scopeNote "The range of this property is intentionally generic, with the purpose of allowing different geometry encodings. E.g., the geometry could be encoded with as WKT (geosparql:wktLiteral [GeoSPARQL]) or [GML] (geosparql:asGML [GeoSPARQL])."@en .
+
+
+###  http://www.w3.org/ns/dcat#endDate
+dcat:endDate rdf:type owl:DatatypeProperty ;
+             rdfs:domain dct:PeriodOfTime ;
+             rdfs:range rdfs:Literal ;
+             rdfs:label "end date"@en ;
+             skos:changeNote "New property added in DCAT 2.0."@en ;
+             skos:definition "The end of the period."@en ;
+             skos:scopeNote "The range of this property is intentionally generic, with the purpose of allowing different level of temporal precision for specifying the end of a period. E.g., it can be expressed with a date (xsd:date), a date and time (xsd:dateTime), or a year (xsd:gYear)."@en .
+
+
+###  http://www.w3.org/ns/dcat#keyword
+dcat:keyword rdf:type owl:DatatypeProperty ;
+             rdfs:subPropertyOf dct:subject ;
+             rdfs:range rdfs:Literal ;
+             rdfs:comment "A keyword or tag describing a resource."@en ;
+             rdfs:isDefinedBy <http://www.w3.org/TR/vocab-dcat/> ;
+             rdfs:label "keyword"@en ;
+             skos:definition "A keyword or tag describing a resource."@en .
+
+
+###  http://www.w3.org/ns/dcat#spatialResolutionInMeters
+dcat:spatialResolutionInMeters rdf:type owl:DatatypeProperty ;
+                               rdfs:range xsd:decimal ;
+                               rdfs:comment "minimum spatial separation resolvable in a dataset, measured in meters."@en-us ,
+                                            "minimum spatial separation resolvable in a dataset, measured in metres."@en-gb ;
+                               rdfs:label "spatial resolution (meters)"@en-us ,
+                                          "spatial resolution (metres)"@en-gb ;
+                               skos:changeNote "New property added in DCAT 2.0."@en ;
+                               skos:definition "minimum spatial separation resolvable in a dataset, measured in meters."@en-us ,
+                                               "minimum spatial separation resolvable in a dataset, measured in metres."@en-gb ;
+                               skos:editorialNote "Might appear in the description of a Dataset or a Distribution, so no domain is specified."@en ;
+                               skos:scopeNote "Alternative spatial resolutions might be provided as different dataset distributions."@en ,
+                                              "If the dataset is an image or grid this should correspond to the spacing of items. For other kinds of spatial dataset, this property will usually indicate the smallest distance between items in the dataset."@en .
+
+
+###  http://www.w3.org/ns/dcat#startDate
+dcat:startDate rdf:type owl:DatatypeProperty ;
+               rdfs:domain dct:PeriodOfTime ;
+               rdfs:range rdfs:Literal ;
+               rdfs:label "start date"@en ;
+               skos:changeNote "New property added in DCAT 2.0."@en ;
+               skos:definition "The start of the period"@en ;
+               skos:scopeNote "The range of this property is intentionally generic, with the purpose of allowing different level of temporal precision for specifying the start of a period. E.g., it can be expressed with a date (xsd:date), a date and time (xsd:dateTime), or a year (xsd:gYear)."@en .
+
+
+###  http://www.w3.org/ns/dcat#temporalResolution
+dcat:temporalResolution rdf:type owl:DatatypeProperty ;
+                        rdfs:range xsd:duration ;
+                        rdfs:comment "minimum time period resolvable in a dataset."@en ;
+                        rdfs:label "temporal resolution"@en ;
+                        skos:changeNote "New property added in DCAT 2.0."@en ;
+                        skos:definition "minimum time period resolvable in a dataset."@en ;
+                        skos:editorialNote "Might appear in the description of a Dataset or a Distribution, so no domain is specified."@en ;
+                        skos:scopeNote "Alternative temporal resolutions might be provided as different dataset distributions."@en ,
+                                       "If the dataset is a time-series this should correspond to the spacing of items in the series. For other kinds of dataset, this property will usually indicate the smallest time difference between items in the dataset."@en .
+
+
+###  http://www.w3.org/ns/dcat#theme
+dcat:theme rdf:type owl:DatatypeProperty ;
+           rdfs:subPropertyOf dct:subject .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://purl.org/dc/dcmitype/Service
+dctype:Service rdf:type owl:Class .
+
+
+###  http://purl.org/dc/terms/Location
+dct:Location rdf:type owl:Class .
+
+
+###  http://purl.org/dc/terms/MediaType
+dct:MediaType rdf:type owl:Class .
+
+
+###  http://purl.org/dc/terms/PeriodOfTime
+dct:PeriodOfTime rdf:type owl:Class .
+
+
+###  http://www.w3.org/2000/01/rdf-schema#Resource
+rdfs:Resource rdf:type owl:Class .
+
+
+###  http://www.w3.org/2006/vcard/ns#Kind
+vcard:Kind rdf:type owl:Class .
+
+
+###  http://www.w3.org/ns/dcat#Catalog
+dcat:Catalog rdf:type owl:Class ;
+             rdfs:subClassOf dcat:Dataset ,
+                             [ rdf:type owl:Restriction ;
+                               owl:onProperty dct:hasPart ;
+                               owl:allValuesFrom dcat:Resource
+                             ] ;
+             rdfs:comment "A curated collection of metadata about resources (e.g., datasets and data services in the context of a data catalog)."@en ;
+             rdfs:isDefinedBy <http://www.w3.org/TR/vocab-dcat/> ;
+             rdfs:label "Catalog"@en ;
+             skos:definition "A curated collection of metadata about resources (e.g., datasets and data services in the context of a data catalog)."@en ;
+             skos:editorialNote "English, Italian, Spanish definitions updated in this revision. Multilingual text not yet updated."@en ;
+             skos:scopeNote "A web-based data catalog is typically represented as a single instance of this class."@en .
+
+
+###  http://www.w3.org/ns/dcat#CatalogRecord
+dcat:CatalogRecord rdf:type owl:Class ;
+                   rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                     owl:onProperty foaf:primaryTopic ;
+                                     owl:allValuesFrom dcat:Resource
+                                   ] ,
+                                   [ rdf:type owl:Restriction ;
+                                     owl:onProperty foaf:primaryTopic ;
+                                     owl:cardinality "1"^^xsd:nonNegativeInteger
+                                   ] ;
+                   rdfs:comment "A record in a data catalog, describing the registration of a single dataset or data service."@en ;
+                   rdfs:isDefinedBy <http://www.w3.org/TR/vocab-dcat/> ;
+                   rdfs:label "Catalog Record"@en ;
+                   skos:definition "A record in a data catalog, describing the registration of a single dataset or data service."@en ;
+                   skos:editorialNote "English definition updated in this revision. Multilingual text not yet updated except the Spanish one and the Czech one and Italian one."@en ;
+                   skos:scopeNote "This class is optional and not all catalogs will use it. It exists for catalogs where a distinction is made between metadata about a dataset or data service and metadata about the entry for the dataset or data service in the catalog. For example, the publication date property of the dataset reflects the date when the information was originally made available by the publishing agency, while the publication date of the catalog record is the date when the dataset was added to the catalog. In cases where both dates differ, or where only the latter is known, the publication date should only be specified for the catalog record. Notice that the W3C PROV Ontology allows describing further provenance information such as the details of the process and the agent involved in a particular change to a dataset."@en .
+
+
+###  http://www.w3.org/ns/dcat#DataService
+dcat:DataService rdf:type owl:Class ;
+                 rdfs:subClassOf dctype:Service ,
+                                 dcat:Resource ,
+                                 [ rdf:type owl:Restriction ;
+                                   owl:onProperty dcat:endpointURL ;
+                                   owl:maxCardinality "1"^^xsd:nonNegativeInteger
+                                 ] ;
+                 rdfs:comment "A site or end-point providing operations related to the discovery of, access to, or processing functions on, data or related resources."@en ;
+                 rdfs:label "Data service"@en ;
+                 skos:changeNote "New class added in DCAT 2.0."@en ;
+                 skos:definition "A site or end-point providing operations related to the discovery of, access to, or processing functions on, data or related resources."@en ;
+                 skos:scopeNote "If a dcat:DataService is bound to one or more specified Datasets, they are indicated by the dcat:servesDataset property."@en ,
+                                "The kind of service can be indicated using the dct:type property. Its value may be taken from a controlled vocabulary such as the INSPIRE spatial data service type vocabulary."@en .
+
+
+###  http://www.w3.org/ns/dcat#Dataset
+dcat:Dataset rdf:type owl:Class ;
+             rdfs:subClassOf dcat:Resource ;
+             rdfs:comment "A collection of data, published or curated by a single source, and available for access or download in one or more representations."@en ;
+             rdfs:isDefinedBy <http://www.w3.org/TR/vocab-dcat/> ;
+             rdfs:label "Dataset"@en ;
+             skos:changeNote "2018-02 - subclass of dctype:Dataset removed because scope of dcat:Dataset includes several other types from the dctype vocabulary."@en ;
+             skos:definition "A collection of data, published or curated by a single source, and available for access or download in one or more represenations."@en ;
+             skos:editorialNote "2020-03-16 A new scopenote added and need to be translated"@en ;
+             skos:scopeNote "The notion of dataset in DCAT is broad and inclusive, with the intention of accommodating resource types arising from all communities. Data comes in many forms including numbers, text, pixels, imagery, sound and other multi-media, and potentially other types, any of which might be collected into a dataset."@en ,
+                            "This class describes the conceptual dataset. One or more representations might be available, with differing schematic layouts and formats or serializations."@en ,
+                            "This class represents the actual dataset as published by the dataset provider. In cases where a distinction between the actual dataset and its entry in the catalog is necessary (because metadata such as modification date and maintainer might differ), the catalog record class can be used for the latter."@en .
+
+
+###  http://www.w3.org/ns/dcat#Distribution
+dcat:Distribution rdf:type owl:Class ;
+                  rdfs:comment "A specific representation of a dataset. A dataset might be available in multiple serializations that may differ in various ways, including natural language, media-type or format, schematic organization, temporal and spatial resolution, level of detail or profiles (which might specify any or all of the above)."@en ;
+                  rdfs:isDefinedBy <http://www.w3.org/TR/vocab-dcat/> ;
+                  rdfs:label "Distribution"@en ;
+                  skos:definition "A specific representation of a dataset. A dataset might be available in multiple serializations that may differ in various ways, including natural language, media-type or format, schematic organization, temporal and spatial resolution, level of detail or profiles (which might specify any or all of the above)."@en ;
+                  skos:scopeNote "This represents a general availability of a dataset it implies no information about the actual access method of the data, i.e. whether by direct download, API, or through a Web page. The use of dcat:downloadURL property indicates directly downloadable distributions."@en .
+
+
+###  http://www.w3.org/ns/dcat#Relationship
+dcat:Relationship rdf:type owl:Class ;
+                  rdfs:subClassOf [ rdf:type owl:Restriction ;
+                                    owl:onProperty dct:relation ;
+                                    owl:minCardinality "1"^^xsd:nonNegativeInteger
+                                  ] ;
+                  rdfs:comment "An association class for attaching additional information to a relationship between DCAT Resources."@en ;
+                  rdfs:label "Relación"@es ,
+                             "Relationship"@en ,
+                             "Relazione"@it ;
+                  skos:changeNote "New class added in DCAT 2.0."@en ;
+                  skos:definition "An association class for attaching additional information to a relationship between DCAT Resources."@en ;
+                  skos:scopeNote "Use to characterize a relationship between datasets, and potentially other resources, where the nature of the relationship is known but is not adequately characterized by the standard Dublin Core properties (dct:hasPart, dct:isPartOf, dct:conformsTo, dct:isFormatOf, dct:hasFormat, dct:isVersionOf, dct:hasVersion, dct:replaces, dct:isReplacedBy, dct:references, dct:isReferencedBy, dct:requires, dct:isRequiredBy) or PROV-O properties (prov:wasDerivedFrom, prov:wasInfluencedBy, prov:wasQuotedFrom, prov:wasRevisionOf, prov:hadPrimarySource, prov:alternateOf, prov:specializationOf)."@en .
+
+
+###  http://www.w3.org/ns/dcat#Resource
+dcat:Resource rdf:type owl:Class ;
+              rdfs:comment "Resource published or curated by a single agent."@en ;
+              rdfs:label "Catalogued resource"@en ;
+              skos:changeNote "New class added in DCAT 2.0."@en ;
+              skos:definition "Resource published or curated by a single agent."@en ;
+              skos:scopeNote "The class of all catalogued resources, the Superclass of dcat:Dataset, dcat:DataService, dcat:Catalog and any other member of a dcat:Catalog. This class carries properties common to all catalogued resources, including datasets and data services. It is strongly recommended to use a more specific sub-class. When describing a resource which is not a dcat:Dataset or dcat:DataService, it is recommended to create a suitable sub-class of dcat:Resource, or use dcat:Resource with the dct:type property to indicate the specific type."@en ,
+                             "dcat:Resource is an extension point that enables the definition of any kind of catalog. Additional subclasses may be defined in a DCAT profile or application for catalogs of other kinds of resources."@en .
+
+
+###  http://www.w3.org/ns/dcat#Role
+dcat:Role rdf:type owl:Class ;
+          rdfs:subClassOf skos:Concept ;
+          rdfs:comment "A role is the function of a resource or agent with respect to another resource, in the context of resource attribution or resource relationships."@en ;
+          rdfs:label "Role"@en ;
+          rdfs:seeAlso dcat:hadRole ;
+          skos:changeNote "New class added in DCAT 2.0."@en ;
+          skos:definition "A role is the function of a resource or agent with respect to another resource, in the context of resource attribution or resource relationships."@en ;
+          skos:editorialNote "Introduced into DCAT to complement prov:Role (whose use is limited to roles in the context of an activity, as the range of prov:hadRole)."@en ;
+          skos:scopeNote "Used in a qualified-attribution to specify the role of an Agent with respect to an Entity. It is recommended that the values be managed as a controlled vocabulary of agent roles, such as http://registry.it.csiro.au/def/isotc211/CI_RoleCode."@en ,
+                         "Used in a qualified-relation to specify the role of an Entity with respect to another Entity. It is recommended that the values be managed as a controlled vocabulary of entity roles such as: ISO 19115 DS_AssociationTypeCode http://registry.it.csiro.au/def/isotc211/DS_AssociationTypeCode; IANA Registry of Link Relations https://www.iana.org/assignments/link-relation;  DataCite metadata schema;  MARC relators https://id.loc.gov/vocabulary/relators."@en .
+
+
+###  http://xmlns.com/foaf/0.1/Document
+foaf:Document rdf:type owl:Class .
+
+
+###  http://xmlns.com/foaf/0.1/Person
+foaf:Person rdf:type owl:Class .
+
+
+[ rdf:type foaf:Person ;
+  sdo:affiliation [ ] ;
+rdfs:seeAlso <https://orcid.org/0000-0002-3884-3420> ;
+foaf:name "Simon J D Cox" ;
+foaf:workInfoHomepage <http://people.csiro.au/Simon-Cox>
+] .
+
+[ foaf:name "Government Linked Data WG"
+ ] .
+
+[ sdo:affiliation [ ] ;
+foaf:name "Rufus Pollock"
+] .
+
+[ rdfs:seeAlso <https://jakub.klímek.com/#me> ;
+   foaf:name "Jakub Klímek"
+ ] .
+
+[ sdo:affiliation [ ] ;
+foaf:name "Vassilios Peristeras"
+] .
+
+[ sdo:affiliation [ ] ;
+rdfs:seeAlso <https://orcid.org/0000-0003-3499-8262> ;
+foaf:name "Alejandra Gonzalez-Beltran"
+] .
+
+[ rdfs:seeAlso <http://www.eurecom.fr/~atemezin/gatemezing-foaf.rdf> ;
+   foaf:name "Ghislain Auguste Atemezing"
+ ] .
+
+[ sdo:affiliation <http://www.w3.org/data#W3C> ;
+   rdfs:seeAlso <http://philarcher.org/foaf.rdf#me> ;
+   foaf:name "Phil Archer"
+ ] .
+
+[ sdo:affiliation [ ] ;
+foaf:name "David Browning"
+] .
+
+[ rdfs:seeAlso <http://makxdekkers.com/makxdekkers.rdf#me> ;
+   foaf:name "Makx Dekkers"
+ ] .
+
+[ foaf:name "Shuji Kamitsuna"
+ ] .
+
+[ rdfs:seeAlso <https://orcid.org/0000-0001-9300-2694> ;
+   foaf:name "Andrea Perego"
+ ] .
+
+[ rdfs:seeAlso <https://orcid.org/0000-0001-5648-2713> ;
+   foaf:name "Riccardo Albertoni"
+ ] .
+
+[ rdfs:seeAlso <http://fadmaa.me/foaf.ttl> ;
+   foaf:name "Fadi Maali"
+ ] .
+
+[ foaf:name "Marios Meimaris"
+ ] .
+
+[ foaf:name "Richard Cyganiak"
+ ] .
+
+[ foaf:name "Boris Villazón-Terrazas"
+ ] .
+
+[ foaf:name "Martin Alvarez-Espinar"
+ ] .
+
+[ foaf:name "John Erickson"
+ ] .
+
+#################################################################
+#    Annotations
+#################################################################
+
+dcat:theme rdfs:comment "A main category of the resource. A resource can have multiple themes."@en ;
+            skos:editorialNote "Status: English Definition text modified by DCAT revision team, all except for Italian and Czech translations are pending."@en ;
+            skos:definition "A main category of the resource. A resource can have multiple themes."@en ;
+            skos:scopeNote "The set of skos:Concepts used to categorize the resources are organized in a skos:ConceptScheme describing all the categories and their relations in the catalog."@en ;
+            rdfs:label "theme"@en ;
+            rdfs:isDefinedBy <http://www.w3.org/TR/vocab-dcat/> .
+
+
+###  Generated by the OWL API (version 4.5.9.2019-02-01T07:24:44Z) https://github.com/owlcs/owlapi
