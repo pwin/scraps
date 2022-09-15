@@ -1,0 +1,122 @@
+	## taken from http://vocab.linkeddata.es/p-plan/index.html
+	## with corrections
+	
+	@prefix p-plan: <http://purl.org/net/p-plan> .
+	@prefix prov: <http://www.w3.org/ns/prov#> .
+	@prefix opmw: <http://www.opmw.org/ontology/> .
+	@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+	@prefix dc:  <http://purl.org/dc/terms/> .
+    @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .	
+	
+
+
+	<http://www.opmw.org/export/resource/WorkflowExecutionArtifact/a1>
+		a p-plan:Entity ; #Applying inference, it becomes a prov:Entity implicitly.
+		rdfs:label "Execution entity with id: a1" ;			
+		prov:wasGeneratedBy <http://www.opmw.org/export/resource/WorkflowExecutionProcess/p1S> .
+
+
+	<http://www.opmw.org/export/resource/ConvertToStandardFormat1> 
+		a p-plan:Activity ;  #Applying inference, it is a prov:Activity as well.
+		rdfs:label "Execution activity ConvertToStandardFormat" ;			
+		prov:used <http://www.opmw.org/export/resource/6C7CF277338D9590EE18534D4D78924F> ;			
+		p-plan:correspondsToStep <http://www.opmw.org/export/resource/ConvertToStandardFormat1> .
+
+
+
+	<http://www.opmw.org/export/resource/BUNDLE1335533097598>
+		a       p-plan:Bundle ;#Aplying inference, it is a prov:Bundle as well.
+		rdfs:label "Bundle created on 1335533097598" .	
+	
+
+	<http://www.opmw.org/export/resource/MultiStep1>
+		a       p-plan:MultiStep; #Aplying inference, it becomes a p-plan:Step and p-plan:Plan as well.
+		rdfs:label "MultiStep created on 1335533097598";
+		p-plan:isDecomposedAsPlan <http://www.opmw.org/export/resource/Plan/Plan1>.#The plan represented by this multiStep	
+
+	<http://www.opmw.org/export/resource/AQUAFLOW_NTM> 
+		a p-plan:Plan;
+		rdfs:label "AquaFlow_NTM" ;
+		dc:contributor	<http://www.opmw.org/export/resource/Agent/WATER> ;
+		dc:modified  "2011-06-08T09:57:12-07:00"^^xsd:dateTime .
+
+
+	<http://www.opmw.org/export/resource/AQUAFLOW_NTM_STEP_1> 
+		a p-plan:Step;
+		rdfs:label "AquaFlow_NTM" ;
+		p-plan:hasInputVar <http://www.opmw.org/export/resource/Var1> ;
+		p-plan:isStepOfPlan <http://www.opmw.org/export/resource/AQUAFLOW_NTM> .
+
+
+	
+	<http://www.opmw.org/export/resource/AQUAFLOW_NTM_VAR_3> 
+		a p-plan:Variable;
+		p-plan:isOutputVarOf <http://www.opmw.org/export/resource/AQUAFLOW_NTM_STEP_1> ;
+		p-plan:isVariableOfPlan <http://www.opmw.org/export/resource/AQUAFLOW_NTM> .
+
+
+	<http://www.opmw.org/export/resource/acc1> 
+		a p-plan:Activity;
+		p-plan:correspondsToStep <http://www.opmw.org/export/resource/AQUAFLOW_NTM_STEP_1>.
+
+	<http://www.opmw.org/export/resource/AQUAFLOW_NTM_STEP_1> 
+		a p-plan:Step.
+
+
+	<http://www.opmw.org/export/resource/Entity_1>
+		a p-plan:Entity;
+		p-plan:correspondsToVariable <http://www.opmw.org/export/resource/ReaerationEDM/Variable_1>.
+	
+	<http://www.opmw.org/export/resource/ReaerationEDM/Variable_1>
+		a p-plan:Variable.
+
+
+
+	<http://www.opmw.org/export/resource/WorkflowExecutionProcess/acc1>
+		a p-plan:Step;
+		p-plan:hasInputVar <http://www.opmw.org/export/resource/AQUAFLOW_EDM_VAR_1>.
+
+
+	<http://www.opmw.org/export/resource/WorkflowExecutionProcess/acc1>
+		a p-plan:Step;
+		p-plan:hasOutputVar <http://www.opmw.org/export/resource/AQUAFLOW_EDM_VAR_2>.
+
+	<http://www.opmw.org/export/resource/WorkflowExecutionProcess/acc1>
+		a p-plan:MultiStep;
+		p-plan:isDecomposedAsPlan <http://www.opmw.org/export/resource/AQUAFLOW_EDM>.
+
+
+
+	<http://www.opmw.org/export/resource/DEPTH> 
+		a p-plan:Variable ;
+		opmw:isInputVarOf <http://www.opmw.org/export/resource/AQUAFLOW_EDM_STEP_4> ;
+		.
+	
+	<http://www.opmw.org/export/resource/AQUAFLOW_EDM_STEP_2> a p-plan:Step .	
+	
+		<http://www.opmw.org/export/resource/DEPTH> 
+		a p-plan:Variable ;
+		opmw:isOutputVarOf <http://www.opmw.org/export/resource/AQUAFLOW_EDM_STEP_2> ;
+		.
+	
+	<http://www.opmw.org/export/resource/AQUAFLOW_EDM_STEP_2> a p-plan:Step .
+	
+	
+		<http://www.opmw.org/export/resource/REAERATIONEDM_STEP_1>
+		a p-plan:Step;
+		p-plan:isStepOfPlan <http://www.opmw.org/export/resource/WorkflowTemplateProcess/AQUAFLOW_EDM_REAERATIONEDM>. 
+		
+		<http://www.opmw.org/export/resource/REAERATIONEDM_STEP_2>
+		a p-plan:Step;
+		p-plan:isPrecededBy <http://www.opmw.org/export/resource/WorkflowTemplateProcess/REAERATIONEDM_STEP_1>. 
+	
+		<http://www.opmw.org/export/resource/AQUAFLOW_EDM_REAERATIONPARAMS>
+		a p-plan:Plan;
+		p-plan:isSubPlanOfPlan <http://www.opmw.org/export/resource/AQUAFLOW_EDM_REAERATIONEDM>.
+								
+
+	    <http://www.opmw.org/export/resource/AQUAFLOW_EDM_REAERATIONPARAMS>
+		a p-plan:Variable ;
+		opmw:VariableOfPlan <http://www.opmw.org/export/resource/AQUAFLOW_EDM_REAERATIONEDM>.
+		
+			
