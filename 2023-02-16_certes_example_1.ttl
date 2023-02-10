@@ -1,0 +1,13 @@
+@base <http://my.example.org/> .
+@prefix rdf:     <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs:     <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix : <http://my.example.org/example/> .
+
+:QueenElizabeth :has-colour :Gray .
+:QueenElizabeth rdf:type :AircraftCarrier .
+:LittleTug1 rdf:type :Tug .
+:LittleTug1  :has-colour :Black-and-White .
+:LittleTug1 :sailing-in-front-of :QueenElizabeth .
+:AircraftCarrier rdfs:subClassOf :Ship .
+:Tug rdfs:subClassOf :Ship .
+:Ship rdfs:subClassOf :SailingVessel .
