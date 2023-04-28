@@ -20,9 +20,9 @@ def visualise_tarql(path_in, path_out):
     print("@prefix : <#> .", file=output_file)
     corePattern = re.compile(r'CONSTRUCT[\n\W]+\{([\n\W\w]+)\}[\n\W\w]+WHERE[\n\W]+\{?', re.MULTILINE|re.IGNORECASE)
     matches = [m.groups() for m in corePattern.finditer(tarqlFileContentText)]
-    print(matches)
-    for x in matches:
-        print(x)
+    #print(matches)
+    #for x in matches:
+    #    print(x)
     for x in matches:
         print(x[0].replace("?",":"), file=output_file)
 
