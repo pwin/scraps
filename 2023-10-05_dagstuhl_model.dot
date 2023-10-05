@@ -55,6 +55,9 @@ label = "{CDIF}"
 DCAT_CDIF[
 label = "{DCAT_CDIF}"
 ]
+DQV -> DQ;
+DUV -> DQ ;
+DQ -> GEO_DCAT_DQ ;
 
 DCAT -> GEO_DCAT ;
 GEO_DCAT -> GEO_DCAT_PROV ;
