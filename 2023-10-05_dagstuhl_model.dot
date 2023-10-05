@@ -17,18 +17,18 @@ fontname=Helvetica
 
 
 DCAT[
-label = "{DCAT}"
+label = "{DCAT\n\nW3C}"
 ]
 
 PROV [
-label = "{PROV}"
+label = "{PROV\n\nW3C}"
 ]
 
 QB [
-label = "{QB}"
+label = "{QB\n\nW3C}"
 ]
 ODRL [
-label = "{ODRL}"
+label = "{ODRL\n\nW3C}"
 ]
 GEO_DCAT [
 label = "{GEODCAT}"
@@ -45,16 +45,28 @@ label = "{DCAT_PROV}"
 GEO_DCAT_PROV [
 label = "{GEODCAT_PROV}"
 ]
-
+GEO_DCAT_DQ [
+label = "{GEODCAT_DQ}"
+]
 GEO_DCAT_DQ [
 label = "{GEODCAT_DQ}"
 ]
 CDIF[
-label = "{CDIF}"
+label = "{CDIF\n\nDDI}"
 ]
 DCAT_CDIF[
 label = "{DCAT_CDIF}"
 ]
+DQV [
+label="{DQV\n\nW3C}"
+]
+DUV [
+label="{DUV\n\nW3C}"
+]
+DQ [
+label="{DQ}"
+]
+
 DQV -> DQ;
 DUV -> DQ ;
 DQ -> GEO_DCAT_DQ ;
