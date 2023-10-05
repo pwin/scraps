@@ -1,5 +1,6 @@
 digraph Dagstuhl{
 ratio = "auto"
+concentrate=true;
 
 node [
 fontname = Helvetica
@@ -67,15 +68,55 @@ DQ [
 label="{DQ}"
 ]
 
+subgraph cluster_OGC {
+		style=filled;
+		color=palegreen;
+
+GEO_DCAT -> GEO_DCAT_PROV ;
+GEO_DCAT_PROV -> GEO_DCAT_DQ ;
+GEO_PROV -> GEO_DCAT_PROV ;
+label = "OGC Cluster";
+}
+
+
+subgraph cluster_DDI {
+		style=filled;
+		color=orange;
+CDIF;
+DCAT_CDIF; 
+label = "DDI Cluster";
+}
+
+
+subgraph cluster_ODRL {
+		style=filled;
+		color=grey;
+ODRL -> DCAT_ODRL ;
+label = "ODRL Cluster";
+}
+
+subgraph cluster_W3C {
+		style=filled;
+		color=lightblue;
+DQV;
+DUV;
+DCAT;
+PROV;
+QB ;
+label = "W3C Cluster";
+}
+
 DQV -> DQ;
 DUV -> DQ ;
 DQ -> GEO_DCAT_DQ ;
-
-DCAT -> GEO_DCAT ;
 GEO_DCAT -> GEO_DCAT_PROV ;
+GEO_DCAT_PROV -> GEO_DCAT_DQ ;
+GEO_PROV -> GEO_DCAT_PROV ;
+DCAT -> GEO_DCAT ;
+
 DCAT -> DCAT_PROV ;
 DCAT_PROV -> GEO_DCAT_PROV ;
-GEO_DCAT_PROV -> GEO_DCAT_DQ ;
+
 QB -> STAT_PROV ;
 PROV -> STAT_PROV ;
 STAT_PROV -> GEO_DCAT_PROV ;
@@ -84,7 +125,7 @@ PROV -> DCAT_PROV ;
 PROV -> GEO_PROV ;
 STAT_PROV -> GEO_PROV ;
 ODRL -> DCAT_ODRL ;
-GEO_PROV -> GEO_DCAT_PROV ;
+
 CDIF -> DCAT_CDIF ;
 GEO_DCAT_DQ -> DCAT_CDIF ;
 
