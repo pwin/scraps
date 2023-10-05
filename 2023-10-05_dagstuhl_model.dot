@@ -1,0 +1,81 @@
+digraph Dagstuhl{
+ratio = "auto"
+
+node [
+fontname = Helvetica
+fontsize = 8
+shape = "record"
+]
+
+edge [
+arrowtail = "empty"
+arrowhead = "vee"
+fontsize=8
+fontcolor=red
+fontname=Helvetica
+]
+
+
+DCAT[
+label = "{DCAT}"
+]
+
+PROV [
+label = "{PROV}"
+]
+
+QB [
+label = "{QB}"
+]
+ODRL [
+label = "{ODRL}"
+]
+GEO_DCAT [
+label = "{GEODCAT}"
+]
+GEO_PROV [
+label = "{GEO_PROV}"
+]
+STAT_PROV [
+label = "{STAT_PROV}"
+]
+DCAT_PROV [
+label = "{DCAT_PROV}"
+]
+GEO_DCAT_PROV [
+label = "{GEODCAT_PROV}"
+]
+
+GEO_DCAT_DQ [
+label = "{GEODCAT_DQ}"
+]
+CDIF[
+label = "{CDIF}"
+]
+DCAT_CDIF[
+label = "{DCAT_CDIF}"
+]
+
+DCAT -> GEO_DCAT ;
+GEO_DCAT -> GEO_DCAT_PROV ;
+DCAT -> DCAT_PROV ;
+DCAT_PROV -> GEO_DCAT_PROV ;
+GEO_DCAT_PROV -> GEO_DCAT_DQ ;
+QB -> STAT_PROV ;
+PROV -> STAT_PROV ;
+STAT_PROV -> GEO_DCAT_PROV ;
+DCAT -> DCAT_ODRL ;
+PROV -> DCAT_PROV ;
+PROV -> GEO_PROV ;
+STAT_PROV -> GEO_PROV ;
+ODRL -> DCAT_ODRL ;
+GEO_PROV -> GEO_DCAT_PROV ;
+CDIF -> DCAT_CDIF ;
+GEO_DCAT_DQ -> DCAT_CDIF ;
+
+
+#dcatCatalog -> foafAgent [label="dct:publisher"]
+#edge [headlabel = "1..*"]
+
+
+}
