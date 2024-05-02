@@ -1,0 +1,94 @@
+@prefix : <http://www.sparontologies.net/example/> .
+@prefix doco: <http://purl.org/spar/doco/> .
+@prefix deo: <http://purl.org/spar/deo/> .
+@prefix po: <http://www.essepuntato.it/2008/12/pattern#> .
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix fabio: <http://purl.org/spar/fabio/> .
+@prefix co: <http://purl.org/co/> .
+@prefix c4o: <http://purl.org/spar/c4o> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+
+:paper a fabio:JournalArticle ;
+    po:contains
+        :front-matter ,
+        :body-matter ,
+        :back-matter ;
+    co:firstItem [
+        co:itemContent :front-matter ;
+        co:nextItem [
+            co:itemContent :body-matter ;
+            co:nextItem [
+                co:itemContent :back-matter ] ] ] .
+
+:body-matter a doco:BodyMatter ;
+    po:contains
+        :section-introduction ,
+        :section-related-work ,
+        :section-document-components ,
+        :section-adoption ,
+        :section-conclusions ;
+    co:firstItem [
+        co:itemContent :section-introduction ;
+        co:nextItem [
+            co:itemContent :section-related-work ;
+            co:nextItem [
+                co:itemContent :section-document-components ;
+                co:nextItem [
+                    co:itemContent :section-adoption ;
+                    co:nextItem [
+                        co:itemContent :section-conclusions ] ] ] ] ] .
+
+# Note that, in this example, the composition in paragraphs
+# has been defined only for this section.
+:section-introduction a doco:Section , deo:Introduction ;
+    po:containsAsHeader :section-introduction-title ;
+    po:contains
+        :paragraph-1 ,
+        :paragraph-2 ,
+        :paragraph-3 ,
+        :paragraph-4 ;
+    co:firstItem [
+        co:itemContent :section-introduction-title ;
+        co:nextItem [
+            co:itemContent :paragraph-1 ;
+            co:nextItem [
+                co:itemContent :paragraph-2 ;
+                co:nextItem [
+                    co:itemContent :paragraph-3 ;
+                    co:nextItem [
+                        co:itemContent :paragraph-4 ] ] ] ] ] .
+
+:section-introduction-title a doco:SectionTitle ;
+    c4o:hasContent "Introduction" .
+
+# Note that, in this example, the composition in sentences
+# has been defined only for this paragraph.
+:paragraph-1 a doco:Paragraph ;
+    po:contains
+        :sentence-1 ,
+        :sentence-2 ,
+        :sentence-3 ,
+        :sentence-4 ,
+        :sentence-5 ,
+        :sentence-6 ,
+        :sentence-7 ;
+    co:firstItem [
+        co:itemContent :sentence-1 ;
+        co:nextItem [
+            co:itemContent :sentence-2 ;
+            co:nextItem [
+                co:itemContent :sentence-3 ;
+                co:nextItem [
+                    co:itemContent :sentence-4 ;
+                    co:nextItem [
+                        co:itemContent :sentence-5 ;
+                        co:nextItem [
+                            co:itemContent :sentence-6 ] ] ] ] ] ] .
+
+:sentence-1 a doco:Sentence ;
+    c4o:hasContent """One of the most important criteria for the
+        evaluation of a scientific contribution is the coherent
+        organisation of the textual narrative that describes it,
+        most often published as a scientific article or book.""" ;
+        .
+
